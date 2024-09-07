@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CalculosService {
@@ -43,6 +45,17 @@ public class CalculosService {
         //Menor Número da Lista
         int menorNumeroLista = this.menorNumero(entrada.getLista());
         resultado.setMenorNumeroLista(menorNumeroLista);
+
+        //Moda
+        int moda = this.modaL(entrada.getLista());
+        resultado.setModa(moda);
+
+        //Mediana
+        double mediana = this.mediana(entrada.getLista());
+        resultado.setMediana(mediana);
+
+        int tamanhoLista = this.tamanhoLista(entrada.getLista());
+        resultado.setTotalElementosLista(tamanhoLista);
 
         resultado = this.calculoRepository.save(resultado);
 
@@ -80,5 +93,41 @@ public class CalculosService {
     //Lógica Menor Numero da Lista
     public int menorNumero(List<Integer> lista) {
         return Collections.min(lista);
+    }
+
+    //Lógica Moda
+    public int modaL(List<Integer> lista) {
+        Map<Integer, Integer> frequencia = new HashMap<>();
+        int moda = lista.get(0);
+        int maxFrequencia = 0;
+
+        for (int numero : lista) {
+            int freq = frequencia.getOrDefault(numero, 0) + 1;
+            frequencia.put(numero, freq);
+
+            if (freq > maxFrequencia) {
+                maxFrequencia = freq;
+                moda = numero;
+            }
+        }
+        return moda;
+    }
+
+    //Lógica Mediana
+    private double mediana(List<Integer> lista) {
+        Collections.sort(lista);
+        int tamanho = lista.size();
+
+        if (tamanho % 2 == 1) {
+            return lista.get(tamanho / 2);
+        }else {
+            int metade1 = lista.get(tamanho / 2 - 1);
+            int metade2 = lista.get(tamanho / 2);
+            return (metade1 + metade2) / 2.0;
+        }
+    }
+    // Lógica Tamanho da Lista
+    private int tamanhoLista(List<Integer> lista) {
+        return lista.size();
     }
 }

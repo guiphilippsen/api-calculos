@@ -22,8 +22,7 @@ public class Resultado {
     private double media;
     private int multiplicar;
     private int moda;
-    private int mediana;
-
+    private double mediana;
     private int menorNumeroLista;
     private int maiorNumeroLista;
     private int totalElementosLista;
