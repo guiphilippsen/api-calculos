@@ -5,6 +5,8 @@ import com.github.guiphilippsen.api_calculos.entity.Resultado;
 import com.github.guiphilippsen.api_calculos.repository.CalculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,6 +36,14 @@ public class CalculosService {
         int multiplicar = this.multiplicacao(entrada.getLista());
         resultado.setMultiplicar(multiplicar);
 
+        //Maior Número da Lista
+        int maiorNumeroLista = this.maiorNumero(entrada.getLista());
+        resultado.setMaiorNumeroLista(maiorNumeroLista);
+
+        //Menor Número da Lista
+        int menorNumeroLista = this.menorNumero(entrada.getLista());
+        resultado.setMenorNumeroLista(menorNumeroLista);
+
         resultado = this.calculoRepository.save(resultado);
 
         return resultado;
@@ -60,5 +70,15 @@ public class CalculosService {
             mult *= lista.get(i);
         }
         return mult;
+    }
+
+    //Lógica Maior Numero da Lista
+    public int maiorNumero(List<Integer> lista) {
+        return Collections.max(lista);
+    }
+
+    //Lógica Menor Numero da Lista
+    public int menorNumero(List<Integer> lista) {
+        return Collections.min(lista);
     }
 }
