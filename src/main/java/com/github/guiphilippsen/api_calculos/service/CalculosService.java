@@ -27,6 +27,7 @@ public class CalculosService {
         double media = this.media(entrada.getLista());
         resultado.setMedia(media);
 
+
         resultado = this.calculoRepository.save(resultado);
 
         return resultado;
@@ -47,6 +48,10 @@ public class CalculosService {
     }
 
     public int multiplicacao(List<Integer> lista) {
-
+        int mult = 1;
+        for(int i=0; i< lista.size(); i++) {
+            mult *= lista.get(i);
+        }
+        return mult;
     }
 }
