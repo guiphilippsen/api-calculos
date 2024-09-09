@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculosServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in api-calculos (4) Coverage Results, All in api-calculos (4) Coverage Results, All in api-calculos (4) Coverage Results</a> &gt; <a href="index.source.html" class="el_package">app.servicetest</a> &gt; <span class="el_source">CalculosServiceTest.java</span></div><h1>CalculosServiceTest.java</h1><pre class="source lang-java linenums">package app.servicetest;
+
+import com.github.guiphilippsen.api_calculos.entity.Entrada;
+import com.github.guiphilippsen.api_calculos.entity.Resultado;
+import com.github.guiphilippsen.api_calculos.repository.CalculoRepository;
+import com.github.guiphilippsen.api_calculos.service.CalculosService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+<span class="fc" id="L22">public class CalculosServiceTest {</span>
+
+    @InjectMocks
+    private CalculosService calculosService;
+
+    @Mock
+    private CalculoRepository calculoRepository;
+
+    @BeforeEach
+    public void setUp() {
+<span class="fc" id="L32">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L33">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar a soma correta da lista&quot;)
+    public void testSomar() {
+<span class="fc" id="L38">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L39">        assertEquals(15, calculosService.somar(lista));</span>
+<span class="fc" id="L40">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar 0 quando a lista está vazia&quot;)
+    public void testSomarListaVazia() {
+<span class="fc" id="L45">        List&lt;Integer&gt; lista = Collections.emptyList();</span>
+<span class="fc" id="L46">        assertEquals(0, calculosService.somar(lista));</span>
+<span class="fc" id="L47">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar a média correta da lista&quot;)
+    public void testMedia() {
+<span class="fc" id="L52">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L53">        assertEquals(3.0, calculosService.media(lista));</span>
+<span class="fc" id="L54">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve lançar IllegalArgumentException quando a lista está vazia para média&quot;)
+    public void testMediaListaVazia() {
+<span class="fc" id="L59">        List&lt;Integer&gt; lista = Collections.emptyList();</span>
+<span class="pc" id="L60">        assertThrows(IllegalArgumentException.class, () -&gt; calculosService.media(lista));</span>
+<span class="fc" id="L61">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar o produto correto da lista&quot;)
+    public void testMultiplicacao() {
+<span class="fc" id="L66">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4);</span>
+<span class="fc" id="L67">        assertEquals(24, calculosService.multiplicacao(lista));</span>
+<span class="fc" id="L68">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar 1 quando a lista contém apenas um elemento&quot;)
+    public void testMultiplicacaoListaUnica() {
+<span class="fc" id="L73">        List&lt;Integer&gt; lista = Collections.singletonList(5);</span>
+<span class="fc" id="L74">        assertEquals(5, calculosService.multiplicacao(lista));</span>
+<span class="fc" id="L75">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar o maior número da lista corretamente&quot;)
+    public void testMaiorNumero() {
+<span class="fc" id="L80">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L81">        assertEquals(5, calculosService.maiorNumero(lista));</span>
+<span class="fc" id="L82">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar Integer.MIN_VALUE quando a lista está vazia&quot;)
+    public void testMaiorNumeroListaVazia() {
+<span class="fc" id="L87">        List&lt;Integer&gt; lista = Collections.emptyList();</span>
+<span class="pc" id="L88">        assertThrows(NoSuchElementException.class, () -&gt; calculosService.maiorNumero(lista));</span>
+<span class="fc" id="L89">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar o menor número da lista corretamente&quot;)
+    public void testMenorNumero() {
+<span class="fc" id="L94">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L95">        assertEquals(1, calculosService.menorNumero(lista));</span>
+<span class="fc" id="L96">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar Integer.MAX_VALUE quando a lista está vazia&quot;)
+    public void testMenorNumeroListaVazia() {
+<span class="fc" id="L101">        List&lt;Integer&gt; lista = Collections.emptyList();</span>
+<span class="pc" id="L102">        assertThrows(NoSuchElementException.class, () -&gt; calculosService.menorNumero(lista));</span>
+<span class="fc" id="L103">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar a moda correta da lista&quot;)
+    public void testModa() {
+<span class="fc" id="L108">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 2, 3, 4, 4, 4);</span>
+<span class="fc" id="L109">        assertEquals(4, calculosService.modaL(lista));</span>
+<span class="fc" id="L110">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar o primeiro elemento como moda quando todos são únicos&quot;)
+    public void testModaTodosUnicos() {
+<span class="fc" id="L115">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L116">        assertEquals(1, calculosService.modaL(lista));</span>
+<span class="fc" id="L117">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar a mediana correta da lista ímpar&quot;)
+    public void testMedianaImpar() {
+<span class="fc" id="L122">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L123">        assertEquals(3.0, calculosService.mediana(lista));</span>
+<span class="fc" id="L124">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar a mediana correta da lista par&quot;)
+    public void testMedianaPar() {
+<span class="fc" id="L129">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4);</span>
+<span class="fc" id="L130">        assertEquals(2.5, calculosService.mediana(lista));</span>
+<span class="fc" id="L131">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar o tamanho correto da lista&quot;)
+    public void testTamanhoLista() {
+<span class="fc" id="L136">        List&lt;Integer&gt; lista = Arrays.asList(1, 2, 3, 4, 5);</span>
+<span class="fc" id="L137">        assertEquals(5, calculosService.tamanhoLista(lista));</span>
+<span class="fc" id="L138">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve retornar 0 quando a lista está vazia&quot;)
+    public void testTamanhoListaVazia() {
+<span class="fc" id="L143">        List&lt;Integer&gt; lista = Collections.emptyList();</span>
+<span class="fc" id="L144">        assertEquals(0, calculosService.tamanhoLista(lista));</span>
+<span class="fc" id="L145">    }</span>
+
+    @Test
+    @DisplayName(&quot;Deve realizar o cálculo corretamente&quot;)
+    public void testCalcular() {
+<span class="fc" id="L150">        Entrada entrada = new Entrada();</span>
+<span class="fc" id="L151">        entrada.setLista(Arrays.asList(1, 2, 3, 4, 5));</span>
+
+<span class="fc" id="L153">        Resultado expectedResultado = new Resultado();</span>
+<span class="fc" id="L154">        expectedResultado.setSoma(15);</span>
+<span class="fc" id="L155">        expectedResultado.setMedia(3.0);</span>
+<span class="fc" id="L156">        expectedResultado.setMultiplicar(120);</span>
+<span class="fc" id="L157">        expectedResultado.setMaiorNumeroLista(5);</span>
+<span class="fc" id="L158">        expectedResultado.setMenorNumeroLista(1);</span>
+<span class="fc" id="L159">        expectedResultado.setModa(1); // Ajustar conforme necessário</span>
+<span class="fc" id="L160">        expectedResultado.setMediana(3.0);</span>
+<span class="fc" id="L161">        expectedResultado.setTotalElementosLista(5);</span>
+
+<span class="fc" id="L163">        when(calculoRepository.save(any(Resultado.class))).thenReturn(expectedResultado);</span>
+
+<span class="fc" id="L165">        Resultado resultado = calculosService.calcular(entrada);</span>
+
+<span class="fc" id="L167">        assertEquals(expectedResultado.getSoma(), resultado.getSoma());</span>
+<span class="fc" id="L168">        assertEquals(expectedResultado.getMedia(), resultado.getMedia());</span>
+<span class="fc" id="L169">        assertEquals(expectedResultado.getMultiplicar(), resultado.getMultiplicar());</span>
+<span class="fc" id="L170">        assertEquals(expectedResultado.getMaiorNumeroLista(), resultado.getMaiorNumeroLista());</span>
+<span class="fc" id="L171">        assertEquals(expectedResultado.getMenorNumeroLista(), resultado.getMenorNumeroLista());</span>
+<span class="fc" id="L172">        assertEquals(expectedResultado.getModa(), resultado.getModa());</span>
+<span class="fc" id="L173">        assertEquals(expectedResultado.getMediana(), resultado.getMediana());</span>
+<span class="fc" id="L174">        assertEquals(expectedResultado.getTotalElementosLista(), resultado.getTotalElementosLista());</span>
+
+<span class="fc" id="L176">        verify(calculoRepository).save(any(Resultado.class));</span>
+<span class="fc" id="L177">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

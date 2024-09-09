@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculosControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in api-calculos (4) Coverage Results, All in api-calculos (4) Coverage Results, All in api-calculos (4) Coverage Results</a> &gt; <a href="index.source.html" class="el_package">app.controllertest</a> &gt; <span class="el_source">CalculosControllerTest.java</span></div><h1>CalculosControllerTest.java</h1><pre class="source lang-java linenums">package app.controllertest;
+
+import com.github.guiphilippsen.api_calculos.controller.CalculosController;
+import com.github.guiphilippsen.api_calculos.entity.Entrada;
+import com.github.guiphilippsen.api_calculos.entity.Resultado;
+import com.github.guiphilippsen.api_calculos.service.CalculosService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+<span class="fc" id="L22">public class CalculosControllerTest {</span>
+
+    @InjectMocks
+    private CalculosController calculosController;
+
+    @Mock
+    private CalculosService calculosService;
+
+    @BeforeEach
+    public void setUp() {
+<span class="fc" id="L32">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L33">    }</span>
+
+    @Test
+    @DisplayName(&quot;Teste de sucesso no cálculo&quot;)
+    public void calcular_Sucesso() {
+<span class="fc" id="L38">        Entrada entrada = new Entrada();  // Criar a entrada com valores adequados</span>
+<span class="fc" id="L39">        Resultado resultadoEsperado = new Resultado();  // Criar o resultado esperado</span>
+
+<span class="fc" id="L41">        when(calculosService.calcular(entrada)).thenReturn(resultadoEsperado);</span>
+
+<span class="fc" id="L43">        ResponseEntity&lt;Resultado&gt; response = calculosController.calcular(entrada);</span>
+
+<span class="fc" id="L45">        assertEquals(HttpStatus.OK, response.getStatusCode());</span>
+<span class="fc" id="L46">        assertEquals(resultadoEsperado, response.getBody());</span>
+<span class="fc" id="L47">        verify(calculosService, times(1)).calcular(entrada);</span>
+<span class="fc" id="L48">    }</span>
+
+    @Test
+    @DisplayName(&quot;Teste de erro no cálculo&quot;)
+    public void calcular_Erro() {
+<span class="fc" id="L53">        Entrada entrada = new Entrada();  // Criar a entrada com valores inadequados</span>
+
+<span class="fc" id="L55">        when(calculosService.calcular(entrada)).thenThrow(new RuntimeException());</span>
+
+<span class="fc" id="L57">        ResponseEntity&lt;Resultado&gt; response = calculosController.calcular(entrada);</span>
+
+<span class="fc" id="L59">        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());</span>
+<span class="fc" id="L60">        assertEquals(null, response.getBody());</span>
+<span class="fc" id="L61">        verify(calculosService, times(1)).calcular(entrada);</span>
+<span class="fc" id="L62">    }</span>
+
+    @Test
+    @DisplayName(&quot;Teste para buscar todos os resultados com sucesso&quot;)
+    public void findAll_Sucesso() {
+<span class="fc" id="L67">        List&lt;Resultado&gt; listaEsperada = Arrays.asList(new Resultado(), new Resultado());</span>
+
+<span class="fc" id="L69">        when(calculosService.findAll()).thenReturn(listaEsperada);</span>
+
+<span class="fc" id="L71">        ResponseEntity&lt;List&lt;Resultado&gt;&gt; response = calculosController.findAll();</span>
+
+<span class="fc" id="L73">        assertEquals(HttpStatus.OK, response.getStatusCode());</span>
+<span class="fc" id="L74">        assertEquals(listaEsperada, response.getBody());</span>
+<span class="fc" id="L75">        verify(calculosService, times(1)).findAll();</span>
+<span class="fc" id="L76">    }</span>
+
+    @Test
+    @DisplayName(&quot;Teste de erro ao buscar todos os resultados&quot;)
+    public void findAll_Erro() {
+<span class="fc" id="L81">        when(calculosService.findAll()).thenThrow(new RuntimeException());</span>
+
+<span class="fc" id="L83">        ResponseEntity&lt;List&lt;Resultado&gt;&gt; response = calculosController.findAll();</span>
+
+<span class="fc" id="L85">        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());</span>
+<span class="fc" id="L86">        assertEquals(null, response.getBody());</span>
+<span class="fc" id="L87">        verify(calculosService, times(1)).findAll();</span>
+<span class="fc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

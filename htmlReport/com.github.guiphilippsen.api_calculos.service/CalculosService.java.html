@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculosService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in api-calculos (4) Coverage Results, All in api-calculos (4) Coverage Results, All in api-calculos (4) Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.github.guiphilippsen.api_calculos.service</a> &gt; <span class="el_source">CalculosService.java</span></div><h1>CalculosService.java</h1><pre class="source lang-java linenums">package com.github.guiphilippsen.api_calculos.service;
+
+import com.github.guiphilippsen.api_calculos.entity.Entrada;
+import com.github.guiphilippsen.api_calculos.entity.Resultado;
+import com.github.guiphilippsen.api_calculos.repository.CalculoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+<span class="fc" id="L15">public class CalculosService {</span>
+
+    @Autowired
+    private CalculoRepository calculoRepository;
+
+    public List&lt;Resultado&gt; findAll(){
+<span class="nc" id="L21">        return this.calculoRepository.findAll();</span>
+    }
+
+    public Resultado calcular(Entrada entrada) {
+
+        //Objeto resultado
+<span class="fc" id="L27">        Resultado resultado = new Resultado();</span>
+
+        //Soma
+<span class="fc" id="L30">        int soma = this.somar(entrada.getLista());</span>
+<span class="fc" id="L31">        resultado.setSoma(soma);</span>
+
+        //Média
+<span class="fc" id="L34">        double media = this.media(entrada.getLista());</span>
+<span class="fc" id="L35">        resultado.setMedia(media);</span>
+
+        //Multiplicação
+<span class="fc" id="L38">        int multiplicar = this.multiplicacao(entrada.getLista());</span>
+<span class="fc" id="L39">        resultado.setMultiplicar(multiplicar);</span>
+
+        //Maior Número da Lista
+<span class="fc" id="L42">        int maiorNumeroLista = this.maiorNumero(entrada.getLista());</span>
+<span class="fc" id="L43">        resultado.setMaiorNumeroLista(maiorNumeroLista);</span>
+
+        //Menor Número da Lista
+<span class="fc" id="L46">        int menorNumeroLista = this.menorNumero(entrada.getLista());</span>
+<span class="fc" id="L47">        resultado.setMenorNumeroLista(menorNumeroLista);</span>
+
+        //Moda
+<span class="fc" id="L50">        int moda = this.modaL(entrada.getLista());</span>
+<span class="fc" id="L51">        resultado.setModa(moda);</span>
+
+        //Mediana
+<span class="fc" id="L54">        double mediana = this.mediana(entrada.getLista());</span>
+<span class="fc" id="L55">        resultado.setMediana(mediana);</span>
+
+<span class="fc" id="L57">        int tamanhoLista = this.tamanhoLista(entrada.getLista());</span>
+<span class="fc" id="L58">        resultado.setTotalElementosLista(tamanhoLista);</span>
+
+<span class="fc" id="L60">        resultado = this.calculoRepository.save(resultado);</span>
+
+<span class="fc" id="L62">        return resultado;</span>
+    }
+
+    //Lógica Soma
+    public int somar(List&lt;Integer&gt; lista) {
+<span class="fc" id="L67">        int soma = 0;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for(int i=0; i&lt;lista.size(); i++) {</span>
+<span class="fc" id="L69">            soma += lista.get(i);</span>
+        }
+<span class="fc" id="L71">        return soma;</span>
+    }
+
+    // Lógica Média
+    public double media(List&lt;Integer&gt; lista) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (lista.isEmpty()) {</span>
+<span class="fc" id="L77">            throw new IllegalArgumentException(&quot;A lista não pode estar vazia.&quot;);</span>
+        }
+<span class="fc" id="L79">        return (double) this.somar(lista) / lista.size();</span>
+    }
+
+    //Lógica Multiplicação
+    public int multiplicacao(List&lt;Integer&gt; lista) {
+<span class="fc" id="L84">        int mult = 1;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for(int i=0; i&lt; lista.size(); i++) {</span>
+<span class="fc" id="L86">            mult *= lista.get(i);</span>
+        }
+<span class="fc" id="L88">        return mult;</span>
+    }
+
+    //Lógica Maior Numero da Lista
+    public int maiorNumero(List&lt;Integer&gt; lista) {
+<span class="fc" id="L93">        return Collections.max(lista);</span>
+    }
+
+    //Lógica Menor Numero da Lista
+    public int menorNumero(List&lt;Integer&gt; lista) {
+<span class="fc" id="L98">        return Collections.min(lista);</span>
+    }
+
+    //Lógica Moda
+    public int modaL(List&lt;Integer&gt; lista) {
+<span class="fc" id="L103">        Map&lt;Integer, Integer&gt; frequencia = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L104">        int moda = lista.get(0);</span>
+<span class="fc" id="L105">        int maxFrequencia = 0;</span>
+
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        for (int numero : lista) {</span>
+<span class="fc" id="L108">            int freq = frequencia.getOrDefault(numero, 0) + 1;</span>
+<span class="fc" id="L109">            frequencia.put(numero, freq);</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            if (freq &gt; maxFrequencia) {</span>
+<span class="fc" id="L112">                maxFrequencia = freq;</span>
+<span class="fc" id="L113">                moda = numero;</span>
+            }
+<span class="fc" id="L115">        }</span>
+<span class="fc" id="L116">        return moda;</span>
+    }
+
+    //Lógica Mediana
+    public double mediana(List&lt;Integer&gt; lista) {
+<span class="fc" id="L121">        Collections.sort(lista);</span>
+<span class="fc" id="L122">        int tamanho = lista.size();</span>
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (tamanho % 2 == 1) {</span>
+<span class="fc" id="L125">            return lista.get(tamanho / 2);</span>
+        }else {
+<span class="fc" id="L127">            int metade1 = lista.get(tamanho / 2 - 1);</span>
+<span class="fc" id="L128">            int metade2 = lista.get(tamanho / 2);</span>
+<span class="fc" id="L129">            return (metade1 + metade2) / 2.0;</span>
+        }
+    }
+    // Lógica Tamanho da Lista
+    public int tamanhoLista(List&lt;Integer&gt; lista) {
+<span class="fc" id="L134">        return lista.size();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

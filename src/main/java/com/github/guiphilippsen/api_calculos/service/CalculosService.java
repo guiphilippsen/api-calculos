@@ -71,8 +71,11 @@ public class CalculosService {
         return soma;
     }
 
-    //Lógica Média
+    // Lógica Média
     public double media(List<Integer> lista) {
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("A lista não pode estar vazia.");
+        }
         return (double) this.somar(lista) / lista.size();
     }
 
@@ -114,7 +117,7 @@ public class CalculosService {
     }
 
     //Lógica Mediana
-    private double mediana(List<Integer> lista) {
+    public double mediana(List<Integer> lista) {
         Collections.sort(lista);
         int tamanho = lista.size();
 
@@ -127,7 +130,7 @@ public class CalculosService {
         }
     }
     // Lógica Tamanho da Lista
-    private int tamanhoLista(List<Integer> lista) {
+    public int tamanhoLista(List<Integer> lista) {
         return lista.size();
     }
 }
